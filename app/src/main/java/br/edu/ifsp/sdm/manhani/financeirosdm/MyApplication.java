@@ -59,7 +59,6 @@ public class MyApplication extends Application {
                     realm1.createObject(TipoTransacao.class,4).setDescricao("Lazer");
                     realm1.createObject(TipoTransacao.class,6).setDescricao("Educação");
                     realm1.createObject(TipoTransacao.class,7).setDescricao("Outros");
-                    realm1.commitTransaction();
                 }
             } catch (Exception e) {
                 Log.e(e.getCause().getMessage(), e.getMessage(), e);

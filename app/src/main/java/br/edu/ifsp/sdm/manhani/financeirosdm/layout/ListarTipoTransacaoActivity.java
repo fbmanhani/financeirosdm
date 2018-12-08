@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.Objects;
 
 import br.edu.ifsp.sdm.manhani.financeirosdm.R;
 import br.edu.ifsp.sdm.manhani.financeirosdm.adapter.ListaTipoTransacaoAdapter;
@@ -18,7 +21,7 @@ import br.edu.ifsp.sdm.manhani.financeirosdm.model.Transacao;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class ListarTipoTransacaoActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ListarTipoTransacaoActivity extends AppCompatActivity {
 
     private final int NOVO_TIPO_REQUEST_CODE = 0;
     public static final String TIPO_EXTRA = "TIPO_EXTRA";
@@ -32,17 +35,16 @@ public class ListarTipoTransacaoActivity extends AppCompatActivity implements Ad
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listar_tipo_transacao);
-        getSupportActionBar().setSubtitle("Listagem de Tipos de Transação");
+        Objects.requireNonNull(getSupportActionBar()).setSubtitle("Tipos de Transação");
         realm = Realm.getDefaultInstance();
         listView = findViewById(R.id.listViewListaTipoTransacao);
         listaTipoTransacao = realm.where(TipoTransacao.class).sort(TipoTransacao.FIELD_DESCRICAO).findAll();
         listaTipoTransacaoAdapter = new ListaTipoTransacaoAdapter(listaTipoTransacao);
         listView.setAdapter(listaTipoTransacaoAdapter);
-        listView.setOnItemClickListener(this);
         registerForContextMenu(listView);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fabNovoTipo);
         fab.setOnClickListener(view -> {
-            Intent configIntent = new Intent(this, TransacaoActivity.class);
+            Intent configIntent = new Intent(this, TipoTransacaoActivity.class);
             startActivity(configIntent);
         });
     }
@@ -55,7 +57,7 @@ public class ListarTipoTransacaoActivity extends AppCompatActivity implements Ad
             case R.id.editarTipoMenuItem:
                 Intent novoTipoIntent = new Intent(this, TipoTransacaoActivity.class);
                 novoTipoIntent.putExtra("POSITION", adapter.position);
-                novoTipoIntent.putExtra(TIPO_EXTRA, tipoTransacao);
+                novoTipoIntent.putExtra(TIPO_EXTRA, tipoTransacao.getId());
                 startActivityForResult(novoTipoIntent, NOVO_TIPO_REQUEST_CODE);
                 return true;
             case R.id.removerTipoMenuItem:
@@ -63,6 +65,11 @@ public class ListarTipoTransacaoActivity extends AppCompatActivity implements Ad
                 return true;
         }
         return false;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        getMenuInflater().inflate(R.menu.menu_contexto, menu);
     }
 
     private void removerTipo(final int pos) {
@@ -75,7 +82,7 @@ public class ListarTipoTransacaoActivity extends AppCompatActivity implements Ad
                 try {
                     TipoTransacao tipo = listaTipoTransacao.get(pos);
                     Long contador = realm1.where(Transacao.class).equalTo("tipoTransacao.id", tipo.getId()).count();
-                    if (contador.compareTo(0l) > 0) {
+                    if (contador.compareTo(0l) == 0) {
                         tipo.deleteFromRealm();
                         listaTipoTransacaoAdapter.notifyDataSetChanged();
                         Toast.makeText(this, "Tipo de transação removido com sucesso!", Toast.LENGTH_SHORT).show();
@@ -110,14 +117,6 @@ public class ListarTipoTransacaoActivity extends AppCompatActivity implements Ad
                     }
                 }
         }
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        TipoTransacao tipo = listaTipoTransacao.get(position);
-        Intent intent = new Intent(this, TransacaoActivity.class);
-        intent.putExtra(TIPO_EXTRA, tipo.getId());
-        startActivity(intent);
     }
 
     @Override

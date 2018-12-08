@@ -18,12 +18,13 @@ public class TipoTransacaoActivity extends AppCompatActivity implements View.OnC
     private Button cancelarButton;
     private Button salvarButton;
     private int position;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tipo_transacao);
-
+        realm = Realm.getDefaultInstance();
         editTextDescricao = findViewById(R.id.editTextDescricaoTpOperacao);
         cancelarButton = findViewById(R.id.buttonCancelarTpOperacao);
         salvarButton = findViewById(R.id.buttonSalvarTpOperacao);
@@ -32,20 +33,21 @@ public class TipoTransacaoActivity extends AppCompatActivity implements View.OnC
         salvarButton.setOnClickListener(this);
 
         String subtitulo;
-        TipoTransacao tipoTransacao = (TipoTransacao) getIntent().getSerializableExtra(ListarTipoTransacaoActivity.TIPO_EXTRA);
+        Long idTipoTransacao = (Long) getIntent().getSerializableExtra(ListarTipoTransacaoActivity.TIPO_EXTRA);
         position = getIntent().getIntExtra("POSITION", -1);
         boolean isEdicao = position > -1;
-        if (tipoTransacao != null) {
+        if (idTipoTransacao != null) {
             subtitulo = isEdicao ? "Editar Tipo de Transação" : "Detalhes do Tipo de Transação";
-            preencheDetalhe(tipoTransacao, isEdicao);
+            preencheDetalhe(idTipoTransacao, isEdicao);
         } else {
-            subtitulo = "Novo tipoTransacao";
+            subtitulo = "Novo idTipoTransacao";
         }
         getSupportActionBar().setSubtitle(subtitulo);
     }
 
-    private void preencheDetalhe(TipoTransacao tipoTransacao, Boolean isEdicao) {
-        editTextDescricao.setText(tipoTransacao.getDescricao());
+    private void preencheDetalhe(Long idTipoTransacao, Boolean isEdicao) {
+        TipoTransacao tipo = realm.where(TipoTransacao.class).equalTo(TipoTransacao.FIELD_ID, idTipoTransacao).findFirst();
+        editTextDescricao.setText(tipo.getDescricao());
         editTextDescricao.setEnabled(isEdicao);
         if (isEdicao) {
             salvarButton.setVisibility(View.VISIBLE);
@@ -62,23 +64,31 @@ public class TipoTransacaoActivity extends AppCompatActivity implements View.OnC
                 finish();
                 break;
             case R.id.buttonSalvarTpOperacao:
-                Realm realm = Realm.getDefaultInstance();
-                realm.executeTransaction(realm1 -> {
-                    Long id = realm1.where(TipoTransacao.class).max("id").longValue();
-                    TipoTransacao tipoTransacao = realm1.createObject(TipoTransacao.class, id + 1);
-                    tipoTransacao.setDescricao(editTextDescricao.getText().toString());
-                    Intent resultado = new Intent();
-                    resultado.putExtra(ListarTipoTransacaoActivity.TIPO_EXTRA, tipoTransacao);
-                    resultado.putExtra("POSITION", position);
-                    setResult(RESULT_OK, resultado);
-                    finish();
-                    realm.commitTransaction();
-                });
-                realm.close();
+                if (editTextDescricao.getText().toString().trim().equals("")) {
+                    editTextDescricao.setError("O campo descrição é obrigatório!");
+                    editTextDescricao.setHint("Preencha a descrição");
+                } else {
+                    realm.executeTransaction(realm1 -> {
+                        Long id = realm1.where(TipoTransacao.class).max("id").longValue();
+                        TipoTransacao tipoTransacao = realm1.createObject(TipoTransacao.class, id + 1);
+                        tipoTransacao.setDescricao(editTextDescricao.getText().toString());
+                        Intent resultado = new Intent();
+                        resultado.putExtra(ListarTipoTransacaoActivity.TIPO_EXTRA, tipoTransacao.getId());
+                        resultado.putExtra("POSITION", position);
+                        setResult(RESULT_OK, resultado);
+                        finish();
+                    });
+                }
                 break;
             default:
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 }

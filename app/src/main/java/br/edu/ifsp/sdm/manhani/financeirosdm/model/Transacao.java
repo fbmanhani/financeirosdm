@@ -8,6 +8,8 @@ import io.realm.annotations.Required;
 
 public class Transacao extends RealmObject {
 
+    public static final String FIELD_DATA = "dataTransacao";
+
     @PrimaryKey
     private long id;
 
@@ -22,6 +24,8 @@ public class Transacao extends RealmObject {
     private Date dataTransacao;
 
     private TipoTransacao tipoTransacao;
+
+    private String descricao;
 
     public Double getValor() {
         return valor;
@@ -69,5 +73,13 @@ public class Transacao extends RealmObject {
 
     public void setTipoTransacao(TipoTransacao tipoTransacao) {
         this.tipoTransacao = tipoTransacao;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 }

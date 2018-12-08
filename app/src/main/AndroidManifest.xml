@@ -22,7 +22,8 @@
         </activity>
         <activity android:name=".layout.TransacaoActivity" />
         <activity android:name=".layout.TipoTransacaoActivity" />
-        <activity android:name=".layout.ListarTipoTransacaoActivity"></activity>
+        <activity android:name=".layout.ListarTipoTransacaoActivity" />
+        <activity android:name=".layout.ListarTransacaoActivity"></activity>
     </application>
 
 </manifest>

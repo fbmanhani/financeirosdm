@@ -18,4 +18,6 @@
     <string name="remover_tipo_de_transa_o">Remover tipo de transação</string>
     <string name="tipos_de_transacao">Tipos de Transação</string>
     <string name="transacoes">Transações</string>
+    <string name="remover">Remover</string>
+    <string name="editar">Editar</string>
 </resources>
