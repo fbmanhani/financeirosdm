@@ -15,7 +15,7 @@ public class Conta extends RealmObject {
 
     private Banco banco;
 
-    private RealmList<Operacao> operacoes;
+    private RealmList<Transacao> operacoes;
 
     public long getId() {
         return id;
@@ -41,11 +41,11 @@ public class Conta extends RealmObject {
         this.banco = banco;
     }
 
-    public RealmList<Operacao> getOperacoes() {
+    public RealmList<Transacao> getOperacoes() {
         return operacoes;
     }
 
-    public void setOperacoes(RealmList<Operacao> operacoes) {
+    public void setOperacoes(RealmList<Transacao> operacoes) {
         this.operacoes = operacoes;
     }
 }

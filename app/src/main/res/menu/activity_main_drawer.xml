@@ -5,13 +5,13 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/navTipoTransacao"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Operações" />
+            android:title="@string/tipos_de_transacao" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/navTransacoes"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Relatório Financeiro" />
+            android:title="@string/transacoes" />
     </group>
 
 </menu>

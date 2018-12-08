@@ -1,9 +1,21 @@
 <resources>
-    <string name="app_name">financeirosdm</string>
+    <string name="app_name">Financeiro SDM</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="incluir_operacao">Incluir Operação</string>
+    <string name="debito">Débito?</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+    <string name="valor">Valor</string>
+    <string name="descricao">Descrição</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="salvar">Salvar</string>
+    <string name="editar_tipo_de_transa_o">Editar tipo de transação</string>
+    <string name="remover_tipo_de_transa_o">Remover tipo de transação</string>
+    <string name="tipos_de_transacao">Tipos de Transação</string>
+    <string name="transacoes">Transações</string>
 </resources>

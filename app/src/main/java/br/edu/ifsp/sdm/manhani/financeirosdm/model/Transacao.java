@@ -1,13 +1,12 @@
 package br.edu.ifsp.sdm.manhani.financeirosdm.model;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
-public class Operacao extends RealmObject {
+public class Transacao extends RealmObject {
 
     @PrimaryKey
     private long id;
@@ -17,16 +16,18 @@ public class Operacao extends RealmObject {
     private Conta conta;
 
     @Required
-    private BigDecimal valor;
+    private Double valor;
 
     @Required
-    private Date dataOperacao;
+    private Date dataTransacao;
 
-    public BigDecimal getValor() {
+    private TipoTransacao tipoTransacao;
+
+    public Double getValor() {
         return valor;
     }
 
-    public void setValor(BigDecimal valor) {
+    public void setValor(Double valor) {
         this.valor = valor;
     }
 
@@ -54,11 +55,19 @@ public class Operacao extends RealmObject {
         this.conta = conta;
     }
 
-    public Date getDataOperacao() {
-        return dataOperacao;
+    public Date getDataTransacao() {
+        return dataTransacao;
     }
 
-    public void setDataOperacao(Date dataOperacao) {
-        this.dataOperacao = dataOperacao;
+    public void setDataTransacao(Date dataTransacao) {
+        this.dataTransacao = dataTransacao;
+    }
+
+    public TipoTransacao getTipoTransacao() {
+        return tipoTransacao;
+    }
+
+    public void setTipoTransacao(TipoTransacao tipoTransacao) {
+        this.tipoTransacao = tipoTransacao;
     }
 }
