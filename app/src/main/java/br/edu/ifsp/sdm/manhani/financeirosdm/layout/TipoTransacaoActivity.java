@@ -21,6 +21,7 @@ public class TipoTransacaoActivity extends AppCompatActivity implements View.OnC
     private Button salvarButton;
     private int position;
     private Realm realm;
+    private Long idTipoTransacao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class TipoTransacaoActivity extends AppCompatActivity implements View.OnC
         salvarButton.setOnClickListener(this);
 
         String subtitulo;
-        Long idTipoTransacao = (Long) getIntent().getSerializableExtra(ListarTipoTransacaoActivity.TIPO_EXTRA);
+        idTipoTransacao = (Long) getIntent().getSerializableExtra(ListarTipoTransacaoActivity.TIPO_EXTRA);
         position = getIntent().getIntExtra("POSITION", -1);
         boolean isEdicao = position > -1;
         if (idTipoTransacao != null) {
@@ -72,7 +73,14 @@ public class TipoTransacaoActivity extends AppCompatActivity implements View.OnC
                 } else {
                     realm.executeTransaction(realm1 -> {
                         Long id = (Long) realm1.where(TipoTransacao.class).max("id");
-                        TipoTransacao tipoTransacao = realm1.createObject(TipoTransacao.class, Objects.requireNonNull(id) + 1);
+
+                        TipoTransacao tipoTransacao;
+                        if (idTipoTransacao != null) {
+                            tipoTransacao = realm1.where(TipoTransacao.class).equalTo(TipoTransacao.FIELD_ID, idTipoTransacao).findFirst();
+                        } else {
+                            tipoTransacao = realm1.createObject(TipoTransacao.class, Objects.requireNonNull(id) + 1);
+                        }
+
                         tipoTransacao.setDescricao(editTextDescricao.getText().toString());
                         Intent resultado = new Intent();
                         resultado.putExtra(ListarTipoTransacaoActivity.TIPO_EXTRA, tipoTransacao.getId());

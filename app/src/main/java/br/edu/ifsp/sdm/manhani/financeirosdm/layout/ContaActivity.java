@@ -31,6 +31,8 @@ public class ContaActivity extends AppCompatActivity implements View.OnClickList
     private Realm realm;
     private int position;
     List<Banco> bancos;
+    boolean isEdicao = false;
+    Long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +54,9 @@ public class ContaActivity extends AppCompatActivity implements View.OnClickList
         salvarButton.setOnClickListener(this);
 
         String subtitulo;
-        Long id = (Long) getIntent().getSerializableExtra(ListarContaActivity.EXTRA);
+        id = (Long) getIntent().getSerializableExtra(ListarContaActivity.EXTRA);
         position = getIntent().getIntExtra("POSITION", -1);
-        boolean isEdicao = position > -1;
+        isEdicao = position > -1;
         if (id != null) {
             subtitulo = isEdicao ? "Editar Conta" : "Detalhes da Conta";
             preencheDetalhe(id, isEdicao);
@@ -76,17 +78,23 @@ public class ContaActivity extends AppCompatActivity implements View.OnClickList
                 boolean camposValidos = validaCampos();
                 if (camposValidos) {
                     realm.executeTransaction(realm1 -> {
-                        Long id = (Long) realm1.where(Conta.class).max("id");
-                        if (id == null) {
-                            id = 1l;
+                        Long novoId = (Long) realm1.where(Conta.class).max(Conta.FIELD_ID);
+                        if (novoId == null) {
+                            novoId = 1l;
                         } else {
-                            id = id++;
+                            novoId++;
                         }
                         Banco banco = bancos.get(spinnerBancos.getSelectedItemPosition());
-                        Conta conta = realm1.createObject(Conta.class, id);
+                        Conta conta;
+                        if (isEdicao) {
+                            conta = realm1.where(Conta.class).equalTo(Conta.FIELD_ID, this.id).findFirst();
+                        } else {
+                            conta = realm1.createObject(Conta.class, novoId);
+                        }
                         conta.setBanco(banco);
                         conta.setNumero(editTextNumero.getText().toString());
                         conta.setSaldo(Double.parseDouble(editTextSaldo.getText().toString()));
+                        conta.setAgencia(editTextAgencia.getText().toString());
                         Intent resultado = new Intent();
                         resultado.putExtra(ListarContaActivity.EXTRA, conta.getId());
                         resultado.putExtra("POSITION", position);
@@ -125,7 +133,8 @@ public class ContaActivity extends AppCompatActivity implements View.OnClickList
         Conta conta = realm.where(Conta.class).equalTo(TipoTransacao.FIELD_ID, id).findFirst();
         editTextSaldo.setText(conta.getSaldo().toString());
         editTextNumero.setText(conta.getNumero());
-        spinnerBancos.setSelection(bancos.indexOf(conta));
+        editTextAgencia.setText(conta.getAgencia());
+        spinnerBancos.setSelection(bancos.indexOf(conta.getBanco()));
         spinnerBancos.requestFocus();
         editTextSaldo.setEnabled(conta.getOperacoes().isEmpty());
         if (isEdicao) {

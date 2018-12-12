@@ -6,6 +6,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/cardViewConta"
         android:layout_margin="5dp">
 
         <RelativeLayout
@@ -21,10 +22,18 @@
                 android:textColor="#000000" />
 
             <TextView
-                android:id="@+id/textViewContaNumero"
+                android:id="@+id/textViewContaAgencia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/textViewContaBanco"
+                android:layout_marginTop="5dp"
+                android:text="Ag: XXXX" />
+
+            <TextView
+                android:id="@+id/textViewContaNumero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/textViewContaAgencia"
                 android:layout_marginTop="5dp"
                 android:text="1123123-1" />
 
@@ -33,7 +42,7 @@
                 android:id="@+id/textViewContaSaldo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textViewContaBanco"
+                android:layout_below="@id/textViewContaAgencia"
                 android:layout_alignEnd="@id/textViewContaNumero"
                 android:layout_marginTop="5dp"
                 android:text="R$0,00"

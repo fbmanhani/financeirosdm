@@ -54,13 +54,13 @@ public class ListarTipoTransacaoActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo adapter = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         TipoTransacao tipoTransacao = listaTipoTransacao.get(adapter.position);
         switch (item.getItemId()) {
-            case R.id.editarTipoMenuItem:
+            case R.id.editarMenuItem:
                 Intent novoTipoIntent = new Intent(this, TipoTransacaoActivity.class);
                 novoTipoIntent.putExtra("POSITION", adapter.position);
                 novoTipoIntent.putExtra(TIPO_EXTRA, tipoTransacao.getId());
                 startActivityForResult(novoTipoIntent, NOVO_TIPO_REQUEST_CODE);
                 return true;
-            case R.id.removerTipoMenuItem:
+            case R.id.removerMenuItem:
                 removerTipo(adapter.position);
                 return true;
         }

@@ -8,6 +8,9 @@ import io.realm.annotations.Required;
 public class Conta extends RealmObject {
 
     public static final String FIELD_ID = "id";
+    public static final String FIELD_BANCO_NOME = "banco.nome";
+    public static final String FIELD_NUMERO = "numero";
+    public static final String FIELD_ATIVA = "ativa";
 
     @PrimaryKey
     private long id;

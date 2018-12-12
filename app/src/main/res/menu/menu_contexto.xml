@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/editarTipoMenuItem"
+        android:id="@+id/editarMenuItem"
         android:title="@string/editar" />
     <item
-        android:id="@+id/removerTipoMenuItem"
+        android:id="@+id/removerMenuItem"
         android:title="@string/remover" />
 </menu>

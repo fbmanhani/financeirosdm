@@ -15,9 +15,7 @@ import android.widget.Toast;
 import java.util.Objects;
 
 import br.edu.ifsp.sdm.manhani.financeirosdm.R;
-import br.edu.ifsp.sdm.manhani.financeirosdm.adapter.ListaTipoTransacaoAdapter;
 import br.edu.ifsp.sdm.manhani.financeirosdm.adapter.ListaTransacaoAdapter;
-import br.edu.ifsp.sdm.manhani.financeirosdm.model.TipoTransacao;
 import br.edu.ifsp.sdm.manhani.financeirosdm.model.Transacao;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -70,13 +68,13 @@ public class ListarTransacaoActivity extends AppCompatActivity implements Adapte
         AdapterView.AdapterContextMenuInfo adapter = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         Transacao transacao = listaTransacao.get(adapter.position);
         switch (item.getItemId()) {
-            case R.id.editarTipoMenuItem:
+            case R.id.editarMenuItem:
                 Intent novoTipoIntent = new Intent(this, TransacaoActivity.class);
                 novoTipoIntent.putExtra("POSITION", adapter.position);
                 novoTipoIntent.putExtra(EXTRA, transacao.getId());
                 startActivityForResult(novoTipoIntent, NOVO_REQUEST_CODE);
                 return true;
-            case R.id.removerTipoMenuItem:
+            case R.id.removerMenuItem:
                 remover(adapter.position);
                 return true;
         }

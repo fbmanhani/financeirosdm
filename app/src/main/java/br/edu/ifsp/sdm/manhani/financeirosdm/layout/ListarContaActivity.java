@@ -17,12 +17,9 @@ import java.util.Objects;
 
 import br.edu.ifsp.sdm.manhani.financeirosdm.R;
 import br.edu.ifsp.sdm.manhani.financeirosdm.adapter.ListaContaAdapter;
-import br.edu.ifsp.sdm.manhani.financeirosdm.adapter.ListaTransacaoAdapter;
 import br.edu.ifsp.sdm.manhani.financeirosdm.model.Conta;
-import br.edu.ifsp.sdm.manhani.financeirosdm.model.Transacao;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import io.realm.Sort;
 
 public class ListarContaActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -42,12 +39,11 @@ public class ListarContaActivity extends AppCompatActivity implements AdapterVie
         Objects.requireNonNull(getSupportActionBar()).setSubtitle("Contas");
         realm = Realm.getDefaultInstance();
         recyclerView = findViewById(R.id.recyclerViewContas);
-        listaConta = realm.where(Conta.class).findAll();
+        listaConta = realm.where(Conta.class).equalTo(Conta.FIELD_ATIVA, true).sort(Conta.FIELD_NUMERO).findAll();
         listaContaAdapter = new ListaContaAdapter(listaConta);
         recyclerView.setAdapter(listaContaAdapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        registerForContextMenu(recyclerView);
         FloatingActionButton fab = findViewById(R.id.fabNovaConta);
         fab.setOnClickListener(view -> {
             Intent configIntent = new Intent(this, ContaActivity.class);
@@ -63,29 +59,23 @@ public class ListarContaActivity extends AppCompatActivity implements AdapterVie
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        getMenuInflater().inflate(R.menu.menu_contexto, menu);
-    }
-
-    @Override
     public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo adapter = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        Conta conta = listaConta.get(adapter.position);
+        Conta conta = listaContaAdapter.getItem(item.getGroupId());
         switch (item.getItemId()) {
-            case R.id.editarTipoMenuItem:
-                Intent novoTipoIntent = new Intent(this, ContaActivity.class);
-                novoTipoIntent.putExtra("POSITION", adapter.position);
-                novoTipoIntent.putExtra(EXTRA, conta.getId());
-                startActivityForResult(novoTipoIntent, NOVO_REQUEST_CODE);
+            case R.id.editarMenuItem:
+                Intent intent = new Intent(this, ContaActivity.class);
+                intent.putExtra("POSITION", item.getGroupId());
+                intent.putExtra(EXTRA, conta.getId());
+                startActivityForResult(intent, NOVO_REQUEST_CODE);
                 return true;
-            case R.id.removerTipoMenuItem:
-                remover(adapter.position);
+            case R.id.removerMenuItem:
+                remover(conta);
                 return true;
         }
         return false;
     }
 
-    private void remover(final int pos) {
+    private void remover(final Conta conta) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setMessage("Confirma remoção?");
@@ -93,9 +83,12 @@ public class ListarContaActivity extends AppCompatActivity implements AdapterVie
             Realm realm = Realm.getDefaultInstance();
             realm.executeTransaction(realm1 -> {
                 try {
-                    Conta conta = listaConta.get(pos);
                     if (conta.getSaldo().compareTo(0d) == 0) {
-                        conta.setAtiva(false);
+                        if (conta.getOperacoes().isEmpty()) {
+                            conta.deleteFromRealm();
+                        } else {
+                            conta.setAtiva(false);
+                        }
                         listaContaAdapter.notifyDataSetChanged();
                         Toast.makeText(this, "Conta removida com sucesso!", Toast.LENGTH_SHORT).show();
                     } else if (conta.getSaldo().compareTo(0d) != 0) {
@@ -106,8 +99,7 @@ public class ListarContaActivity extends AppCompatActivity implements AdapterVie
                     e.printStackTrace();
                 }
             });
-        });
-        builder.setNegativeButton("Não", null);
+        }).setNegativeButton("Não", null);
         AlertDialog remover = builder.create();
         remover.show();
     }
