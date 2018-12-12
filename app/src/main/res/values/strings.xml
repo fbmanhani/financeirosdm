@@ -20,4 +20,9 @@
     <string name="transacoes">Transações</string>
     <string name="remover">Remover</string>
     <string name="editar">Editar</string>
+    <string name="contas">Contas</string>
+    <string name="banco">Banco</string>
+    <string name="numero">Número</string>
+    <string name="saldo">Saldo</string>
+    <string name="agencia">Agência</string>
 </resources>

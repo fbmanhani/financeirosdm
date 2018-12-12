@@ -7,6 +7,8 @@ import io.realm.annotations.Required;
 
 public class Conta extends RealmObject {
 
+    public static final String FIELD_ID = "id";
+
     @PrimaryKey
     private long id;
 
@@ -14,6 +16,14 @@ public class Conta extends RealmObject {
     private String numero;
 
     private Banco banco;
+
+    @Required
+    private String agencia;
+
+    @Required
+    private Double saldo;
+
+    private boolean ativa = true;
 
     private RealmList<Transacao> operacoes;
 
@@ -47,5 +57,29 @@ public class Conta extends RealmObject {
 
     public void setOperacoes(RealmList<Transacao> operacoes) {
         this.operacoes = operacoes;
+    }
+
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
+    }
+
+    public boolean isAtiva() {
+        return ativa;
+    }
+
+    public void setAtiva(boolean ativa) {
+        this.ativa = ativa;
+    }
+
+    public String getAgencia() {
+        return agencia;
+    }
+
+    public void setAgencia(String agencia) {
+        this.agencia = agencia;
     }
 }

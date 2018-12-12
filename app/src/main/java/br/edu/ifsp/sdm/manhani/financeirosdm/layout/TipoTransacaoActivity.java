@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Objects;
+
 import br.edu.ifsp.sdm.manhani.financeirosdm.R;
 import br.edu.ifsp.sdm.manhani.financeirosdm.model.TipoTransacao;
 import io.realm.Realm;
@@ -40,7 +42,7 @@ public class TipoTransacaoActivity extends AppCompatActivity implements View.OnC
             subtitulo = isEdicao ? "Editar Tipo de Transação" : "Detalhes do Tipo de Transação";
             preencheDetalhe(idTipoTransacao, isEdicao);
         } else {
-            subtitulo = "Novo idTipoTransacao";
+            subtitulo = "Novo Tipo de Transação";
         }
         getSupportActionBar().setSubtitle(subtitulo);
     }
@@ -69,8 +71,8 @@ public class TipoTransacaoActivity extends AppCompatActivity implements View.OnC
                     editTextDescricao.setHint("Preencha a descrição");
                 } else {
                     realm.executeTransaction(realm1 -> {
-                        Long id = realm1.where(TipoTransacao.class).max("id").longValue();
-                        TipoTransacao tipoTransacao = realm1.createObject(TipoTransacao.class, id + 1);
+                        Long id = (Long) realm1.where(TipoTransacao.class).max("id");
+                        TipoTransacao tipoTransacao = realm1.createObject(TipoTransacao.class, Objects.requireNonNull(id) + 1);
                         tipoTransacao.setDescricao(editTextDescricao.getText().toString());
                         Intent resultado = new Intent();
                         resultado.putExtra(ListarTipoTransacaoActivity.TIPO_EXTRA, tipoTransacao.getId());

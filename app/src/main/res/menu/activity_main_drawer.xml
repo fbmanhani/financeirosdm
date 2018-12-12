@@ -8,6 +8,12 @@
             android:id="@+id/navTipoTransacao"
             android:icon="@drawable/ic_menu_camera"
             android:title="@string/tipos_de_transacao" />
+
+        <item
+            android:id="@+id/navContas"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/contas" />
+
         <item
             android:id="@+id/navTransacoes"
             android:icon="@drawable/ic_menu_gallery"

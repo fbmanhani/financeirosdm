@@ -6,6 +6,9 @@ import io.realm.annotations.Required;
 
 public class Banco extends RealmObject {
 
+    public static final String FIELD_NOME = "nome";
+    public static final String FIELD_ID = "codigo";
+
     @PrimaryKey
     @Required
     private String codigo;
@@ -28,5 +31,10 @@ public class Banco extends RealmObject {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    @Override
+    public String toString() {
+        return getCodigo() + " - " + getNome();
     }
 }

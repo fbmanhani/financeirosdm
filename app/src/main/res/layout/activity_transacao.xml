@@ -14,43 +14,47 @@
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="50sp"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="@string/incluir_operacao"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content"
+            android:text="Conta"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:id="@+id/spinnerConta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/debito" />
+            android:labelFor="@id/radioGroupNatureza"
+            android:text="Natureza da transação"
+            android:textSize="18sp" />
 
         <RadioGroup
+            android:id="@+id/radioGroupNatureza"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <RadioButton
-                android:id="@+id/radioButton"
+                android:id="@+id/radioButtonCredito"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/sim" />
+                android:text="Crédito" />
 
             <RadioButton
-                android:id="@+id/radioButton2"
+                android:id="@+id/radioButtonDebito"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/nao" />
+                android:text="Débito" />
         </RadioGroup>
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/valor" />
+            android:labelFor="@id/editTextValor"
+            android:text="@string/valor"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/editTextValor"
@@ -59,5 +63,26 @@
             android:ems="10"
             android:inputType="numberDecimal"
             android:maxLength="12" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cancelar" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/salvar" />
+        </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

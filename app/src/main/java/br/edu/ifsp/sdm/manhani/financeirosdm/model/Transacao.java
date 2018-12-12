@@ -9,6 +9,7 @@ import io.realm.annotations.Required;
 public class Transacao extends RealmObject {
 
     public static final String FIELD_DATA = "dataTransacao";
+    public static final String FIELD_CONTA_ID = "conta.id";
 
     @PrimaryKey
     private long id;

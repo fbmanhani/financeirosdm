@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -72,6 +71,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, ListarTipoTransacaoActivity.class));
         } else if (id == R.id.navTransacoes) {
             startActivity(new Intent(this, ListarTransacaoActivity.class));
+        } else if (id == R.id.navContas) {
+            startActivity(new Intent(this, ListarContaActivity.class));
         }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
