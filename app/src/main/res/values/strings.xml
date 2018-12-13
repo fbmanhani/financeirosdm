@@ -25,4 +25,9 @@
     <string name="numero">Número</string>
     <string name="saldo">Saldo</string>
     <string name="agencia">Agência</string>
+    <string name="tipo">Tipo</string>
+    <string name="credito">Crédito</string>
+    <string name="natureza_da_transacao">Natureza da transação</string>
+    <string name="conta">Conta</string>
+    <string name="todos">Todos</string>
 </resources>

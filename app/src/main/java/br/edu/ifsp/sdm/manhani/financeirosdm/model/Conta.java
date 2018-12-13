@@ -1,5 +1,7 @@
 package br.edu.ifsp.sdm.manhani.financeirosdm.model;
 
+import android.support.annotation.NonNull;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -11,6 +13,7 @@ public class Conta extends RealmObject {
     public static final String FIELD_BANCO_NOME = "banco.nome";
     public static final String FIELD_NUMERO = "numero";
     public static final String FIELD_ATIVA = "ativa";
+    public static final String FIELD_SALDO = "saldo";
 
     @PrimaryKey
     private long id;
@@ -84,5 +87,15 @@ public class Conta extends RealmObject {
 
     public void setAgencia(String agencia) {
         this.agencia = agencia;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        if (getId() == 0) {
+            return "Selecione";
+        } else {
+            return getBanco().getCodigo() + " - " + getAgencia() + " - " + getNumero();
+        }
     }
 }

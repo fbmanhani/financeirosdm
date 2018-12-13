@@ -1,5 +1,7 @@
 package br.edu.ifsp.sdm.manhani.financeirosdm.model;
 
+import android.support.annotation.NonNull;
+
 import java.io.Serializable;
 
 import io.realm.RealmObject;
@@ -28,7 +30,6 @@ public class TipoTransacao extends RealmObject implements Serializable {
     }
 
     public long getId() {
-
         return id;
     }
 
@@ -42,5 +43,11 @@ public class TipoTransacao extends RealmObject implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getDescricao();
     }
 }

@@ -10,6 +10,9 @@ public class Transacao extends RealmObject {
 
     public static final String FIELD_DATA = "dataTransacao";
     public static final String FIELD_CONTA_ID = "conta.id";
+    public static final String FIELD_ID = "id";
+    public static final String FIELD_DEBITO = "debito";
+    public static final String FIELD_VALOR = "valor";
 
     @PrimaryKey
     private long id;

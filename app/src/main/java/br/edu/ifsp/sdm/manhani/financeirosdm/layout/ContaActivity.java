@@ -44,8 +44,8 @@ public class ContaActivity extends AppCompatActivity implements View.OnClickList
         ArrayAdapter<Banco> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, bancos);
         spinnerBancos.setAdapter(adapter);
         spinnerBancos.requestFocus();
-        cancelarButton = findViewById(R.id.buttonCancelarConta);
-        salvarButton = findViewById(R.id.buttonSalvarConta);
+        cancelarButton = findViewById(R.id.buttonCancelar);
+        salvarButton = findViewById(R.id.buttonSalvar);
         editTextNumero = findViewById(R.id.editTextContaNumero);
         editTextSaldo = findViewById(R.id.editTextContaSaldo);
         editTextAgencia = findViewById(R.id.editTextContaAgencia);
@@ -64,17 +64,16 @@ public class ContaActivity extends AppCompatActivity implements View.OnClickList
             subtitulo = "Nova Conta";
         }
         getSupportActionBar().setSubtitle(subtitulo);
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.buttonCancelarConta:
+            case R.id.buttonCancelar:
                 setResult(RESULT_CANCELED);
                 finish();
                 break;
-            case R.id.buttonSalvarConta:
+            case R.id.buttonSalvar:
                 boolean camposValidos = validaCampos();
                 if (camposValidos) {
                     realm.executeTransaction(realm1 -> {
@@ -130,7 +129,7 @@ public class ContaActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void preencheDetalhe(Long id, Boolean isEdicao) {
-        Conta conta = realm.where(Conta.class).equalTo(TipoTransacao.FIELD_ID, id).findFirst();
+        Conta conta = realm.where(Conta.class).equalTo(Conta.FIELD_ID, id).findFirst();
         editTextSaldo.setText(conta.getSaldo().toString());
         editTextNumero.setText(conta.getNumero());
         editTextAgencia.setText(conta.getAgencia());
