@@ -30,4 +30,6 @@
     <string name="natureza_da_transacao">Natureza da transação</string>
     <string name="conta">Conta</string>
     <string name="todos">Todos</string>
+    <string name="data_inicial">Data Inicial</string>
+    <string name="data_final">Data Final</string>
 </resources>
